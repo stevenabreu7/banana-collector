@@ -17,7 +17,7 @@ env_info = env.reset(train_mode=True)[brain_name]
 action_size = brain.vector_action_space_size
 state_size = brain.vector_observation_space_size
 
-print("\nstart training ddqn agent ([512,512,128], tau=2e-3, eps_decay=0.998)\n")
+print("\nstart training ddqn agent ([512,256,128], tau=2e-3, eps_decay=0.998)\n")
 agent = Agent(state_size, action_size, seed=0, double_ql=True, tau=2e-3)
 scores = train_agent(env, brain_name, agent, n_episodes=2000, epsilon=1.0, epsilon_decay=0.998, epsilon_min=0.01)
 # scores_test = test_agent(env, brain_name, agent, n_episodes=1)
