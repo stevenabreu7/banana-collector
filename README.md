@@ -45,3 +45,7 @@ Make sure to update the `file_name` parameter in the code when loading the envir
 ```python
 env = UnityEnvironment(file_name="src/exec/...")
 ```
+
+## Training the agent
+
+All code for training is in [training.py](./src/training.py). You can execute the code as shown in this [notebook](./train_state_based.ipynb) for training an agent for the state-based environment.
