@@ -141,7 +141,7 @@ class Agent():
             target_param.data.copy_(tau*local_param.data + (1.0-tau)*target_param.data)
     
     def save_params(self):
-        torch.save(agent.qnetwork_local.state_dict(), 'checkpoint.pth')
+        torch.save(self.qnetwork_local.state_dict(), 'checkpoint.pth')
 
 
 class ReplayBuffer:
