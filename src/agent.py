@@ -13,7 +13,7 @@ class Agent():
     """Interacts with and learns from the environment."""
 
     def __init__(self, state_size, action_size, seed, buffer_size=100000, batch_size=64, gamma=0.99, tau=1e-3,\
-                lr=5e-4, update_freq=4, double_ql=True, a_prioritization=0.0):
+                lr=5e-4, update_freq=4, double_ql=True, a_prioritization=0.0, network_layers=[512,512]):
         """Initialize an Agent object.
         
         Params:
@@ -51,8 +51,8 @@ class Agent():
             print("[WARNING] prioritization is not implemented yet")
 
         # q-Network
-        self.qnetwork_local = QNetwork(state_size, action_size, seed).to(device)
-        self.qnetwork_target = QNetwork(state_size, action_size, seed).to(device)
+        self.qnetwork_local = QNetwork(state_size, action_size, seed, network_layers).to(device)
+        self.qnetwork_target = QNetwork(state_size, action_size, seed, network_layers).to(device)
         self.optimizer = optim.Adam(self.qnetwork_local.parameters(), lr=lr)
 
         # replay memory
