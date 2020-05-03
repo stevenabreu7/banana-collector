@@ -18,7 +18,19 @@ action_size = brain.vector_action_space_size
 state_size = brain.vector_observation_space_size
 
 print("\nstart training ddqn agent ([512,256,128], tau=2e-3, eps_decay=0.998)\n")
+title = "ddqn_512x256x128"
 agent = Agent(state_size, action_size, seed=0, double_ql=True, tau=2e-3, network_layers=[512,256,128])
-scores = train_agent(env, brain_name, agent, n_episodes=2000, epsilon=1.0, epsilon_decay=0.998, epsilon_min=0.01)
-# scores_test = test_agent(env, brain_name, agent, n_episodes=1)
-show_scores_plot(scores, filename="assets/scores_state_ddqn.png")
+scores = train_agent(env, brain_name, agent, epsilon_decay=0.998, epsilon_min=0.01, prefix=title + "_")
+show_scores_plot(scores, filename="assets/scores_state_{}.png".format(title))
+
+print("\nstart training ddqn agent ([512,512], tau=2e-3, eps_decay=0.997)\n")
+title = "ddqn_512x512_epsd997"
+agent = Agent(state_size, action_size, seed=0, double_ql=True, tau=2e-3, network_layers=[512,512])
+scores = train_agent(env, brain_name, agent, epsilon_decay=0.997, epsilon_min=0.01, prefix=title + "_")
+show_scores_plot(scores, filename="assets/scores_state_{}.png".format(title))
+
+print("\nstart training ddqn agent ([256,256,128], tau=2e-3, eps_decay=0.998)\n")
+title = "ddqn_256_256_128"
+agent = Agent(state_size, action_size, seed=0, double_ql=True, tau=2e-3, network_layers=[256,256,128])
+scores = train_agent(env, brain_name, agent, epsilon_decay=0.998, epsilon_min=0.01, prefix=title + "_")
+show_scores_plot(scores, filename="assets/scores_state_{}.png".format(title))

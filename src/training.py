@@ -6,7 +6,7 @@ import numpy as np
 import sys
 
 
-def train_agent(env, brain_name, agent, n_episodes, epsilon=1.0, epsilon_decay=0.999, epsilon_min=0.01):
+def train_agent(env, brain_name, agent, n_episodes=2000, epsilon=1.0, epsilon_decay=0.999, epsilon_min=0.01, prefix=""):
     """Train the given agent in the environment.
         
     Params:
@@ -20,6 +20,7 @@ def train_agent(env, brain_name, agent, n_episodes, epsilon=1.0, epsilon_decay=0
     """
     scores = []
     scores_window = deque(maxlen=100)
+    solved = False
     for i_episode in range(1, n_episodes+1):
         # reset the environment
         env_info = env.reset(train_mode=True)[brain_name]
@@ -54,11 +55,13 @@ def train_agent(env, brain_name, agent, n_episodes, epsilon=1.0, epsilon_decay=0
         ), end="\n" if i_episode % 100 == 0 else "")
         sys.stdout.flush()
         # save parameters if environment solved
-        if np.mean(scores_window) >= 13.0:
+        if np.mean(scores_window) >= 13.0 and not solved:
             print('\nEnvironment solved in {:d} episodes!\tAverage Score: {:.2f}'.format(
                 i_episode-100, np.mean(scores_window)
             ))
-            agent.save_params()
+            solved = True
+            agent.save_params(prefix=prefix, suffix="_solv")
+    agent.save_params(prefix=prefix, suffix="_end")
     return scores
 
 
