@@ -106,9 +106,9 @@ class Agent():
 
         if self.double_ql:
             # get next predicted actions from target network
-            next_actions = self.qnetwork_target(next_states).detach().argmax(dim=1).unsqueeze(1)
+            next_actions = self.qnetwork_local(next_states).detach().argmax(dim=1).unsqueeze(1)
             # get max predicted Q values (target network actions) from local network
-            Q_targets_next = self.qnetwork_local(next_states).detach().gather(1, next_actions)
+            Q_targets_next = self.qnetwork_target(next_states).detach().gather(1, next_actions)
         else:
             # get max predicted Q values (for next states) from target model
             Q_targets_next = self.qnetwork_target(next_states).detach().max(1)[0].unsqueeze(1)
