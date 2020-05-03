@@ -2,6 +2,10 @@
 
 Training agents using deep reinforcement learning for the banana collector environment from the [Unity Machine Learning Agents Toolkit](https://github.com/Unity-Technologies/ml-agents). 
 
+![banana collector environment](./assets/banana.gif)
+
+## Learning task
+
 Goal: 
 - collect as many yellow bananas as possible
 - +13 average score over 100 episodes
