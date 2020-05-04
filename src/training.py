@@ -105,11 +105,27 @@ def show_scores_plot(scores, filename=None, save_np=True):
         np.save(filename.split(".")[0] + ".npy" if filename else "scores.npy", scores)
     window_size = 100
     scores = [np.mean(scores[max(0, idx-window_size+1):idx+1]) for idx in range(len(scores))]
+    scores[:100] = 0 # first 100 scores are not averaged
+    # plot agent scores
     plt.plot(np.arange(1, len(scores)+1), scores, label="agent")
+    # plot agent scores that solved environment
+    win_scores = scores.copy()
+    win_scores[win_scores < 13] = np.nan
+    plt.plot(np.arange(1, len(scores)+1), win_scores, label="solved", color="orange")
+    # marker for target score (solution)
     plt.hlines(13, 1, len(scores), colors=["red"], linestyles=["dashed"], label="goal")
-    plt.ylabel("score")
+    # marker for max target episode for finding solution
+    plt.vlines(1800, 0, max(max(scores), 13), colors=["red"], linestyles=["dashed"])
+    # marker for episode when solution was first found
+    ep_solve = np.argmax(np.array(scores) > 13)
+    ep_solve = ep_solve
+    if ep_solve:
+        plt.vlines(ep_solve, 0, max(max(scores), 13), colors=["green"], linestyles=["dashed"], label="solution")
+        plt.annotate("{}".format(ep_solve), (ep_solve - len(scores) / 15, 4.0))
+    # labels and legend
+    plt.ylabel("average score (over 100 episodes)")
     plt.xlabel("episode")
-    plt.legend(bbox_to_anchor=(1.15, 1))
+    plt.legend(bbox_to_anchor=(1.17, 1))
     if filename:
         plt.savefig(filename, bbox_inches='tight')
         plt.close()
