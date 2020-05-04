@@ -6,7 +6,7 @@ import numpy as np
 import sys
 
 
-def train_agent(env, brain_name, agent, n_episodes=2000, epsilon=1.0, epsilon_decay=0.999, epsilon_min=0.01, prefix=""):
+def train_agent(env, brain_name, agent, n_episodes=4000, epsilon=1.0, epsilon_decay=0.999, epsilon_min=0.01, prefix=""):
     """Train the given agent in the environment.
         
     Params:
@@ -95,13 +95,14 @@ def test_agent(env, brain_name, agent, n_episodes):
     return scores
 
 
-def show_scores_plot(scores, filename=None):
+def show_scores_plot(scores, filename=None, save_np=True):
     """Show the scores plot and optionally save the plot.
         
     Params:
         filename (str): optional filename to save the plot
     """
-    np.save(filename.split(".")[0] + ".npy" if filename else "scores.npy", scores)
+    if save_np:
+        np.save(filename.split(".")[0] + ".npy" if filename else "scores.npy", scores)
     window_size = 100
     scores = [np.mean(scores[max(0, idx-window_size+1):idx+1]) for idx in range(len(scores))]
     plt.plot(np.arange(1, len(scores)+1), scores, label="agent")
@@ -111,5 +112,6 @@ def show_scores_plot(scores, filename=None):
     plt.legend(bbox_to_anchor=(1.15, 1))
     if filename:
         plt.savefig(filename, bbox_inches='tight')
+        plt.close()
     else:
         plt.show()
