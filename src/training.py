@@ -74,8 +74,9 @@ def show_scores_plot(scores, filename=None, save_np=True):
     if save_np:
         np.save(filename.split(".")[0] + ".npy" if filename else "scores.npy", scores)
     window_size = 100
-    scores = [np.mean(scores[max(0, idx-window_size+1):idx+1]) for idx in range(len(scores))]
-    scores[:100] = 0 # first 100 scores are not averaged
+    scores = np.array([np.mean(scores[max(0, idx-window_size+1):idx+1]) for idx in range(len(scores))])
+    if len(scores) > 100:
+        scores[:100] = 0 # first 100 scores are not averaged
     # plot agent scores
     plt.plot(np.arange(1, len(scores)+1), scores, label="agent")
     # plot agent scores that solved environment
@@ -85,7 +86,8 @@ def show_scores_plot(scores, filename=None, save_np=True):
     # marker for target score (solution)
     plt.hlines(13, 1, len(scores), colors=["red"], linestyles=["dashed"], label="goal")
     # marker for max target episode for finding solution
-    plt.vlines(1800, 0, max(max(scores), 13), colors=["red"], linestyles=["dashed"])
+    if len(scores) >= 1800:
+        plt.vlines(1800, 0, max(max(scores), 13), colors=["red"], linestyles=["dashed"])
     # marker for episode when solution was first found
     ep_solve = np.argmax(np.array(scores) > 13)
     ep_solve = ep_solve
