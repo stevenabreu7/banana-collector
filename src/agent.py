@@ -143,6 +143,10 @@ class Agent():
     def save_params(self, suffix="", prefix=""):
         filename = suffix + "checkpoint" + prefix + ".pth"
         torch.save(self.qnetwork_local.state_dict(), filename)
+    
+    def load_weights(self, filepath):
+        self.qnetwork_local.load_state_dict(torch.load(filepath))
+        self.qnetwork_local.eval()
 
 
 class ReplayBuffer:

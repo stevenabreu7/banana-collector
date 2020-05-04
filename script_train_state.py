@@ -1,6 +1,6 @@
 from unityagents import UnityEnvironment
 from src.agent import Agent
-from src.training import train_agent, test_agent, show_scores_plot
+from src.training import train_agent, show_scores_plot
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np

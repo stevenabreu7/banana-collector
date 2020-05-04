@@ -65,36 +65,6 @@ def train_agent(env, brain_name, agent, n_episodes=4000, epsilon=1.0, epsilon_de
     return scores
 
 
-def test_agent(env, brain_name, agent, n_episodes):
-    """Test the given agent in the environment.
-        
-    Params:
-        n_episodes (int): how many episodes to run the agent for
-
-    Returns:
-        scores (list(int)): score for each episode
-    """
-    scores = []
-    for i_episode in range(1, n_episodes+1):
-        env_info = env.reset(train_mode=False)[brain_name]
-        state = env_info.vector_observations[0]
-        score = 0
-        while True:
-            action = agent.act(state) # greedy
-            sys.stdout.flush()
-            env_info = env.step(action)[brain_name]
-            next_state = env_info.vector_observations[0]
-            reward = env_info.rewards[0]
-            done = env_info.local_done[0]
-            score += reward
-            state = next_state
-            if done:
-                break
-        scores.append(score)
-        print('episode {}\tscore: {:.2f}'.format(i_episode, np.mean(score)))
-    return scores
-
-
 def show_scores_plot(scores, filename=None, save_np=True):
     """Show the scores plot and optionally save the plot.
         
